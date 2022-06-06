@@ -137,7 +137,7 @@ class conversion extends \core\persistent {
                           FROM {" . self::TABLE . "} c
                           JOIN (SELECT id
                                   FROM {files}
-                                 WHERE contenthash = :ccontenthash
+                                 WHERE contenthash = :ccontenthash ORDER BY id DESC
                                  LIMIT 1
                                ) conversionsourcefile ON conversionsourcefile.id = c.sourcefileid
                      LEFT JOIN {files} conversiondestfile ON conversiondestfile.id = c.destfileid
