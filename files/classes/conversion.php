@@ -135,15 +135,10 @@ class conversion extends \core\persistent {
             case 'postgres':
                 $sql = "SELECT {$sqlfields}
                           FROM {" . self::TABLE . "} c
-                          JOIN (SELECT id
-                                  FROM {files}
-                                 WHERE contenthash = :ccontenthash
-                                 LIMIT 1
-                               ) conversionsourcefile ON conversionsourcefile.id = c.sourcefileid
                      LEFT JOIN {files} conversiondestfile ON conversiondestfile.id = c.destfileid
-                         WHERE c.targetformat = :cformat
+                         WHERE c.sourcefileid = " .$file->get_id(). " AND c.targetformat = :cformat
                            AND (c.destfileid IS NULL
-                                OR conversiondestfile.id IS NOT NULL)";
+                            OR conversiondestfile.id IS NOT NULL)";
                 break;
 
             // For everything else, use the standard cross-db compatible query.
